@@ -1,0 +1,22 @@
+version: '3'
+services:
+  httpserver:
+    image: ubuntu:Httpserver
+    command: bash -c 'tail -f /dev/null'
+    volumes:
+      - /Cold/httpserver:/httpserver
+    ports:
+      - 9067:9067
+      - 19201:19201
+    environment:
+      - LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+    networks:
+      - app
+    deploy:
+      restart_policy:
+        condition: any
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  app:
